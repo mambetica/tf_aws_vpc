@@ -19,7 +19,7 @@ resource "aws_internet_gateway" "ig" {
   }
 }
 
-resource "aws_subnet" "subnet_private" {
+resource "aws_subnet" "private" {
   vpc_id = "${aws_vpc.vpc.id}"
   cidr_block = "${element(split(",", var.subnets_private), count.index)}"
   availability_zone = "${element(split(",", var.availability_zones), count.index)}"
@@ -30,7 +30,7 @@ resource "aws_subnet" "subnet_private" {
   }
 }
 
-resource "aws_subnet" "subnet_public" {
+resource "aws_subnet" "public" {
   vpc_id = "${aws_vpc.vpc.id}"
   cidr_block = "${element(split(",", var.subnets.public), count.index)}"
   availability_zone = "${element(split(",", var.availability_zones), count.index)}"
