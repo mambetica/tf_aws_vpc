@@ -25,7 +25,7 @@ resource "aws_subnet" "private" {
   availability_zone = "${element(split(",", var.availability_zones), count.index)}"
   count = "${length(compact(split(",", var.subnets_private)))}"
   tags {
-    Name = "${aws_subnet.availability_zone}-private"
+    Name = "${aws_subnet.availability_zone.id}-private"
 	Owner = "${var.owner}"
   }
 }
@@ -36,7 +36,7 @@ resource "aws_subnet" "public" {
   availability_zone = "${element(split(",", var.availability_zones), count.index)}"
   count = "${length(compact(split(",", var.subnets_public)))}"
   tags {
-    Name = "${aws_subnet.availability_zone}-public"
+    Name = "${aws_subnet.availability_zone.id}-public"
     Owner = "${var.owner}"
   }
   map_public_ip_on_launch = true
