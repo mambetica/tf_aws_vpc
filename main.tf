@@ -4,7 +4,7 @@ resource "aws_vpc" "${var.name}" {
   enable_dns_support = "${var.enable_dns_support}"
   tags {
     Name = "${var.name}"
-	Owner = "${var.owner}"
+    Owner = "${var.owner}"
   }
   lifecycle {
     create_before_destroy = true
