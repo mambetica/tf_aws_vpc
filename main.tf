@@ -28,12 +28,12 @@ resource "aws_route_table" "public" {
 }
 
 resource "aws_route" "public_internet_gateway" {
-    route_table_id = "${aws_route_table.public.id}"
-    destination_cidr_block = "0.0.0.0/0"
-    gateway_id = "${aws_internet_gateway.ig.id}"
+  route_table_id = "${aws_route_table.public.id}"
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id = "${aws_internet_gateway.ig.id}"
 }
 
-resource "aws_route_table" "private" {
+resource "aws_main_route_table_association" "private" {
   vpc_id = "${aws_vpc.vpc.id}"
   tags {
     Name = "${var.name}-private"
