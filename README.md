@@ -1,4 +1,4 @@
-Terraform Module - AWS VPC
+Terraform AWS VPC Module
 ===========
 
 A Terraform module to create a Virtual Private Cloud (VPC) within AWS.
