@@ -32,7 +32,7 @@ resource "aws_subnet" "private" {
 
 resource "aws_subnet" "public" {
   vpc_id = "${aws_vpc.vpc.id}"
-  cidr_block = "${element(split(",", var.subnets.public), count.index)}"
+  cidr_block = "${element(split(",", var.subnets_public), count.index)}"
   availability_zone = "${element(split(",", var.availability_zones), count.index)}"
   count = "${length(compact(split(",", var.subnets_public)))}"
   tags {
