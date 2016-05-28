@@ -12,3 +12,6 @@ variable "enable_dns_hostnames" {
   description = "Whether or not the VPC has DNS hostname support"
   default = false
 }
+variable "subnets_public" { }
+variable "subnets_private" { }
+variable "availability_zones" { }
