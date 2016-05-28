@@ -33,7 +33,7 @@ resource "aws_route" "public_internet_gateway" {
   gateway_id = "${aws_internet_gateway.ig.id}"
 }
 
-resource "aws_main_route_table_association" "private" {
+resource "aws_route_table" "private" {
   vpc_id = "${aws_vpc.vpc.id}"
   tags {
     Name = "${var.name}-private"
@@ -67,7 +67,7 @@ resource "aws_subnet" "public" {
 resource "aws_route_table_association" "private" {
   count = "${length(compact(split(",", var.subnets_private)))}"
   subnet_id = "${element(aws_subnet.private.*.id, count.index)}"
-  route_table_id = "${aws_main_route_table_association.private.id}"
+  route_table_id = "${aws_route_table.private.id}"
 }
 
 resource "aws_route_table_association" "public" {
