@@ -50,6 +50,7 @@ resource "aws_subnet" "private" {
 	Owner = "${var.owner}"
   }
   count = "${length(compact(split(",", var.subnets_private)))}"
+  map_public_ip_on_launch = false
 }
 
 resource "aws_subnet" "public" {
@@ -61,7 +62,7 @@ resource "aws_subnet" "public" {
     Owner = "${var.owner}"
   }
   count = "${length(compact(split(",", var.subnets_public)))}"
-  map_public_ip_on_launch = true
+  map_public_ip_on_launch = false
 }
 
 resource "aws_route_table_association" "private" {
