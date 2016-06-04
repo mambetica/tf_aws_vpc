@@ -33,6 +33,13 @@ Usage
 -----
 
 ```
+variable "vpc_name" { default = "MY_VPC" }
+variable "vpc_cidr_block" { default = "10.10.0.0/16" }
+variable "vpc_enable_dns_support" { default = true }
+variable "vpc_subnets_public" { default = "10.10.0.0/20,10.10.16.0/20,10.10.32.0/20" }
+variable "vpc_subnets_private" { default = "10.10.48.0/20,10.10.64.0/20,10.10.80.0/20" }
+variable "vpc_availability_zones" { default = "region-1a,region-1b,region-1c" }
+
 module "my_vpc" {
   source = "github.com/mambetica/tf_aws_vpc"
   name = "${var.vpc_name}"
@@ -42,15 +49,4 @@ module "my_vpc" {
   subnets_private = "${var.vpc_subnets_private}"
   availability_zones = "${var.vpc_availability_zones}"
 }
-```
-
-With `variables`:
-
-```
-variable "vpc_name" { default = "MY_VPC" }
-variable "vpc_cidr_block" { default = "10.10.0.0/16" }
-variable "vpc_enable_dns_support" { default = true }
-variable "vpc_subnets_public" { default = "10.10.0.0/20,10.10.16.0/20,10.10.32.0/20" }
-variable "vpc_subnets_private" { default = "10.10.48.0/20,10.10.64.0/20,10.10.80.0/20" }
-variable "vpc_availability_zones" { default = "region-1a,region-1b,region-1c" }
 ```
