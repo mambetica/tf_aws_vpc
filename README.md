@@ -20,28 +20,6 @@ Input Variables
 - `subnets_private` - (Mandatory) A comma separated list of private subnets, one for each availability zone
 - `availability_zones` - (Mandatory) A comma separated list of availability zones to place the subnets into
 
-Usage
------
-
-```module "my_vpc" {
-  source = "github.com/mambetica/tf_aws_vpc"
-  name = "${var.vpc_name}"
-  cidr_block = "${var.vpc_cidr_block}"
-  enable_dns_support = "${var.vpc_enable_dns_support}"
-  subnets_public = "${var.vpc_subnets_public}"
-  subnets_private = "${var.vpc_subnets_private}"
-  availability_zones = "${var.vpc_availability_zones}"
-}```
-
-With `variables`:
-
-```variable "vpc_name" { default = "MY_VPC" }
-variable "vpc_cidr_block" { default = "10.10.0.0/16" }
-variable "vpc_enable_dns_support" { default = true }
-variable "vpc_subnets_public" { default = "10.10.0.0/20,10.10.16.0/20,10.10.32.0/20" }
-variable "vpc_subnets_private" { default = "10.10.48.0/20,10.10.64.0/20,10.10.80.0/20" }
-variable "vpc_availability_zones" { default = "region-1a,region-1b,region-1c" }```
-
 Output Variables
 ----------------
 
@@ -50,3 +28,29 @@ Output Variables
 - `public_subnets` - The list of public subnets that are setup
 - `private_availability_zones` - The list of private availability zones that are setup
 - `public_availability_zones` - The list of public availability zones that are setup
+
+Usage
+-----
+
+```
+module "my_vpc" {
+  source = "github.com/mambetica/tf_aws_vpc"
+  name = "${var.vpc_name}"
+  cidr_block = "${var.vpc_cidr_block}"
+  enable_dns_support = "${var.vpc_enable_dns_support}"
+  subnets_public = "${var.vpc_subnets_public}"
+  subnets_private = "${var.vpc_subnets_private}"
+  availability_zones = "${var.vpc_availability_zones}"
+}
+```
+
+With `variables`:
+
+```
+variable "vpc_name" { default = "MY_VPC" }
+variable "vpc_cidr_block" { default = "10.10.0.0/16" }
+variable "vpc_enable_dns_support" { default = true }
+variable "vpc_subnets_public" { default = "10.10.0.0/20,10.10.16.0/20,10.10.32.0/20" }
+variable "vpc_subnets_private" { default = "10.10.48.0/20,10.10.64.0/20,10.10.80.0/20" }
+variable "vpc_availability_zones" { default = "region-1a,region-1b,region-1c" }
+```
