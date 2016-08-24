@@ -54,7 +54,7 @@ resource "aws_subnet" "public" {
   cidr_block = "${element(split(",", var.subnets_public), count.index)}"
   availability_zone = "${element(split(",", var.availability_zones), count.index)}"
   tags {
-    Name = "public-${element(split(",", var.availability_zones), count.index)}"
+    Name = "public-${var.name}-${element(split(",", var.availability_zone_ids), count.index)}"
     Owner = "${var.owner}"
   }
   count = "${length(compact(split(",", var.subnets_public)))}"
@@ -66,7 +66,7 @@ resource "aws_subnet" "private" {
   cidr_block = "${element(split(",", var.subnets_private), count.index)}"
   availability_zone = "${element(split(",", var.availability_zones), count.index)}"
   tags {
-    Name = "private-${element(split(",", var.availability_zones), count.index)}"
+    Name = "private-${var.name}-${element(split(",", var.availability_zone_ids), count.index)}"
 	Owner = "${var.owner}"
   }
   count = "${length(compact(split(",", var.subnets_private)))}"
@@ -78,7 +78,7 @@ resource "aws_subnet" "data" {
   cidr_block = "${element(split(",", var.subnets_data), count.index)}"
   availability_zone = "${element(split(",", var.availability_zones), count.index)}"
   tags {
-    Name = "data-${element(split(",", var.availability_zones), count.index)}"
+    Name = "data-${var.name}-${element(split(",", var.availability_zone_ids), count.index)}"
     Owner = "${var.owner}"
   }
   count = "${length(compact(split(",", var.subnets_data)))}"

@@ -28,3 +28,6 @@ variable "subnets_data" {
 variable "availability_zones" {
   description = "A comma separated list of availability zones to place the subnets into"
 }
+variable "availability_zone_ids" {
+  description = "A comma separated list of availability zone ids to place the subnets into"
+}
