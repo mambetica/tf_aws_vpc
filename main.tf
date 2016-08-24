@@ -22,7 +22,7 @@ resource "aws_internet_gateway" "ig" {
 resource "aws_route_table" "public" {
   vpc_id = "${aws_vpc.vpc.id}"
   tags {
-    Name = "${var.name}-public"
+    Name = "public-${var.name}"
     Owner = "${var.owner}"
   }
 }
@@ -36,21 +36,17 @@ resource "aws_route" "public_internet_gateway" {
 resource "aws_route_table" "private" {
   vpc_id = "${aws_vpc.vpc.id}"
   tags {
-    Name = "${var.name}-private"
+    Name = "private-${var.name}"
     Owner = "${var.owner}"
   }
 }
 
-resource "aws_subnet" "private" {
+resource "aws_route_table" "data" {
   vpc_id = "${aws_vpc.vpc.id}"
-  cidr_block = "${element(split(",", var.subnets_private), count.index)}"
-  availability_zone = "${element(split(",", var.availability_zones), count.index)}"
   tags {
-    Name = "${element(split(",", var.availability_zones), count.index)}-private"
-	Owner = "${var.owner}"
+    Name = "data-${var.name}"
+    Owner = "${var.owner}"
   }
-  count = "${length(compact(split(",", var.subnets_private)))}"
-  map_public_ip_on_launch = false
 }
 
 resource "aws_subnet" "public" {
@@ -58,11 +54,41 @@ resource "aws_subnet" "public" {
   cidr_block = "${element(split(",", var.subnets_public), count.index)}"
   availability_zone = "${element(split(",", var.availability_zones), count.index)}"
   tags {
-    Name = "${element(split(",", var.availability_zones), count.index)}-public"
+    Name = "public-${element(split(",", var.availability_zones), count.index)}"
     Owner = "${var.owner}"
   }
   count = "${length(compact(split(",", var.subnets_public)))}"
   map_public_ip_on_launch = false
+}
+
+resource "aws_subnet" "private" {
+  vpc_id = "${aws_vpc.vpc.id}"
+  cidr_block = "${element(split(",", var.subnets_private), count.index)}"
+  availability_zone = "${element(split(",", var.availability_zones), count.index)}"
+  tags {
+    Name = "private-${element(split(",", var.availability_zones), count.index)}"
+	Owner = "${var.owner}"
+  }
+  count = "${length(compact(split(",", var.subnets_private)))}"
+  map_public_ip_on_launch = false
+}
+
+resource "aws_subnet" "data" {
+  vpc_id = "${aws_vpc.vpc.id}"
+  cidr_block = "${element(split(",", var.subnets_data), count.index)}"
+  availability_zone = "${element(split(",", var.availability_zones), count.index)}"
+  tags {
+    Name = "data-${element(split(",", var.availability_zones), count.index)}"
+    Owner = "${var.owner}"
+  }
+  count = "${length(compact(split(",", var.subnets_data)))}"
+  map_public_ip_on_launch = false
+}
+
+resource "aws_route_table_association" "public" {
+  count = "${length(compact(split(",", var.subnets_public)))}"
+  subnet_id = "${element(aws_subnet.public.*.id, count.index)}"
+  route_table_id = "${aws_route_table.public.id}"
 }
 
 resource "aws_route_table_association" "private" {
@@ -71,8 +97,8 @@ resource "aws_route_table_association" "private" {
   route_table_id = "${aws_route_table.private.id}"
 }
 
-resource "aws_route_table_association" "public" {
-  count = "${length(compact(split(",", var.subnets_public)))}"
-  subnet_id = "${element(aws_subnet.public.*.id, count.index)}"
-  route_table_id = "${aws_route_table.public.id}"
+resource "aws_route_table_association" "data" {
+  count = "${length(compact(split(",", var.subnets_data)))}"
+  subnet_id = "${element(aws_subnet.data.*.id, count.index)}"
+  route_table_id = "${aws_route_table.data.id}"
 }
