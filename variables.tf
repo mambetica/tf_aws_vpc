@@ -22,6 +22,9 @@ variable "subnets_public" {
 variable "subnets_private" {
   description = "A comma separated list of private subnets, one for each availability zone"
 }
+variable "subnets_data" {
+  description = "A comma separated list of data subnets, one for each availability zone"
+}
 variable "availability_zones" {
   description = "A comma separated list of availability zones to place the subnets into"
 }
